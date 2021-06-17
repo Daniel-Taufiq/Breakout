@@ -29,6 +29,7 @@ public class Brick : MonoBehaviour
         hits--;
         if (hits <= 0)
         {
+            GameManager.Instance.Score += points;
             Destroy(gameObject);
         }
         renderer.sharedMaterial = hitMaterial;
