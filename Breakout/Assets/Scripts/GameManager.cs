@@ -16,10 +16,15 @@ public class GameManager : MonoBehaviour
     public GameObject panelLevelCompeleted;
     public GameObject panelGameOver;
 
+    public GameObject[] levels;
+
     public static GameManager Instance { get; private set; }
 
     public enum State { MENU, INIT, PLAY, COMPLETED, LOADLEVEL, GAMEOVER }
     State state;
+    GameObject currBall;
+    GameObject currLevel;
+    bool isSwitchingState;
 
     private int score;
     public int Score
@@ -59,10 +64,19 @@ public class GameManager : MonoBehaviour
 
     
 
-    public void SwitchState(State newState)
+    public void SwitchState(State newState, float delay = 0)
     {
+        StartCoroutine(SwitchDelay(newState, delay));
+    }
+
+    IEnumerator SwitchDelay(State newState, float delay)
+    {
+        isSwitchingState = true;
+        yield return new WaitForSeconds(delay);
         EndState();
+        state = newState;
         BeginState(newState);
+        isSwitchingState = false;
     }
 
     void BeginState(State newState)
@@ -86,6 +100,15 @@ public class GameManager : MonoBehaviour
                 panelLevelCompeleted.SetActive(true);
                 break;
             case State.LOADLEVEL:
+                if(Level >= levels.Length)
+                {
+                    SwitchState(State.GAMEOVER);
+                }
+                else 
+                {
+                    currLevel = Instantiate(levels[Level]);
+                    SwitchState(State.PLAY);
+                }
                 break;
             case State.GAMEOVER:
             panelGameOver.SetActive(true);
@@ -103,6 +126,17 @@ public class GameManager : MonoBehaviour
             case State.INIT:
                 break;
             case State.PLAY:
+                if(currBall == null)
+                {
+                    if(Balls > 0)
+                    {
+                        currBall = Instantiate(ballPrefab);
+                    }
+                    else 
+                    {
+                        SwitchState(State.GAMEOVER);
+                    }
+                }
                 break;
             case State.COMPLETED:
                 break;
