@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     State state;
     GameObject currBall;
     GameObject currLevel;
+    GameObject currPlayer;
     bool isSwitchingState;
 
     private int score;
@@ -103,7 +104,7 @@ public class GameManager : MonoBehaviour
                 {
                     Destroy(currLevel);
                 }
-                Instantiate(playerPrefab);
+                currPlayer = Instantiate(playerPrefab);
                 SwitchState(State.LOADLEVEL);
                 break;
             case State.PLAY:
@@ -196,5 +197,14 @@ public class GameManager : MonoBehaviour
                 panelGameOver.SetActive(false);
                 break;
         }
+    }
+
+    public void QuitGame()
+    {
+        SwitchState(State.MENU);
+        Destroy(currBall);
+        Destroy(currLevel);
+        Destroy(currPlayer);
+        balls = 0;
     }
 }
