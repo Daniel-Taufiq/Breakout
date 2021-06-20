@@ -10,11 +10,15 @@ public class Brick : MonoBehaviour
     public Material hitMaterial;
     Material originalMaterial;
     Renderer renderer;
+    public AudioSource audioSource;
+    public ParticleSystem deathParticles; // implement later
+
     // Start is called before the first frame update
     void Start()
     {
         transform.Rotate(rotator * (transform.position.x + transform.position.y) * 0.1f);
         renderer = GetComponent<Renderer>();
+        audioSource = GetComponent<AudioSource>();
         originalMaterial = renderer.sharedMaterial;
     }
 
@@ -27,6 +31,9 @@ public class Brick : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         hits--;
+        //audioSource.Play();
+        FindObjectOfType<AudioManager>().Play("Pop_sound");
+        // only flash the brick color if it has a hit marker greater than 1
         if (hits <= 0)
         {
             GameManager.Instance.Score += points;

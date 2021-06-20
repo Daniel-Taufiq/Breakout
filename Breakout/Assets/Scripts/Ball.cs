@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    float speed = 20f;
+    float speed = 30f;
     Rigidbody rigidbody;
     Vector3 velocity;
     Renderer renderer;
+
     // Start is called before the first frame update
     void Start()
     {
