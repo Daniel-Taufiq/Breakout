@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public enum State { MENU, INIT, PLAY, COMPLETED, LOADLEVEL, GAMEOVER }
-    State state;
+    public State state;
     GameObject currBall;
     GameObject currLevel;
     GameObject currPlayer;
