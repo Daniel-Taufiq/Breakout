@@ -32,6 +32,7 @@ public class Ball : MonoBehaviour
         if(!renderer.isVisible)
         {
             GameManager.Instance.Balls--;
+            GameManager.Instance.DecBallCount();
             Destroy(gameObject);
         }
     }

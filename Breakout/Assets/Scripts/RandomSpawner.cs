@@ -8,6 +8,7 @@ public class RandomSpawner : MonoBehaviour
     public GameObject powerUp;
     public float Radius = 1;
     private bool calledOnce = false;
+    private int x = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +27,8 @@ public class RandomSpawner : MonoBehaviour
     }
 
     IEnumerator SpawnObjectAtRandom() {
-        while(true)
+        
+        if(true)
         {
             int wait_time = Random.Range (0, 50);
             yield return new WaitForSeconds (wait_time);

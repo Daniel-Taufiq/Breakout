@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public GameObject panelGameOver;
 
     public GameObject[] levels;
+    
 
     public static GameManager Instance { get; private set; }
 
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
     GameObject currLevel;
     GameObject currPlayer;
     bool isSwitchingState;
+    int numCurrBalls = 0;
 
     private int score;
     public int Score
@@ -100,6 +102,7 @@ public class GameManager : MonoBehaviour
                 Score = 0;
                 Level = 0;
                 Balls = 3;
+                numCurrBalls = 0;
                 if(currLevel != null)
                 {
                     Destroy(currLevel);
@@ -112,6 +115,7 @@ public class GameManager : MonoBehaviour
             case State.COMPLETED:
                 Destroy(currBall);
                 Destroy(currLevel);
+                numCurrBalls = 0;
                 Level++;
                 panelLevelCompeleted.SetActive(true);
                 SwitchState(State.LOADLEVEL, 2f);
@@ -147,15 +151,20 @@ public class GameManager : MonoBehaviour
             case State.INIT:
                 break;
             case State.PLAY:
+                if(Balls == 0)
+                {
+                    SwitchState(State.GAMEOVER);
+                }
                 if(currBall == null)
                 {
-                    if(Balls > 0)
+                    if(Balls > 0 && numCurrBalls == 0)
                     {
                         currBall = Instantiate(ballPrefab);
+                        numCurrBalls++;
                     }
-                    else 
+                    else if(Balls > 0 && numCurrBalls > 0)
                     {
-                        SwitchState(State.GAMEOVER);
+                        // do nothing because we still have balls on the screen
                     }
                 }
                 if(currLevel != null && currLevel.transform.childCount == 0 && !isSwitchingState)
@@ -211,5 +220,11 @@ public class GameManager : MonoBehaviour
     public void AddBall()
     {
         currBall = Instantiate(ballPrefab);
+        numCurrBalls++;
+    }
+
+    public void DecBallCount()
+    {
+        numCurrBalls--;
     }
 }
