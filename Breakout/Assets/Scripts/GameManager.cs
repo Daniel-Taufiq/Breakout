@@ -207,4 +207,9 @@ public class GameManager : MonoBehaviour
         Destroy(currPlayer);
         balls = 0;
     }
+
+    public void AddBall()
+    {
+        currBall = Instantiate(ballPrefab);
+    }
 }
