@@ -7,17 +7,21 @@ public class GameManager : MonoBehaviour
 {
     public GameObject ballPrefab;
     public GameObject playerPrefab;
+    public GameObject textDisplay;
     public Text scoreText;
     public Text ballsText;
     public Text levelText;
     public Text highscoreText;
+    public Text timertxt;
 
     public GameObject panelMenu;
     public GameObject panelPlay;
     public GameObject panelLevelCompeleted;
     public GameObject panelGameOver;
 
+
     public GameObject[] levels;
+    
     
 
     public static GameManager Instance { get; private set; }
@@ -28,7 +32,9 @@ public class GameManager : MonoBehaviour
     GameObject currLevel;
     GameObject currPlayer;
     bool isSwitchingState;
+    bool timerStarted = false;
     int numCurrBalls = 0;
+    public int secondsLeft = 5;
 
     private int score;
     public int Score
@@ -66,6 +72,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        textDisplay.GetComponent<Text>().text = "00:" + secondsLeft;
         Instance = this;
         SwitchState(State.MENU);
     }
@@ -89,6 +96,9 @@ public class GameManager : MonoBehaviour
 
     void BeginState(State newState)
     {
+        GameObject[] fasterball = GameObject.FindGameObjectsWithTag("FasterBall");
+        GameObject[] additionalBallPowerup = GameObject.FindGameObjectsWithTag("AdditionalBall");
+        GameObject[] allBalls = GameObject.FindGameObjectsWithTag("Ball");
         switch(newState)
         {
             case State.MENU:
@@ -115,6 +125,10 @@ public class GameManager : MonoBehaviour
             case State.COMPLETED:
                 Destroy(currBall);
                 Destroy(currLevel);
+                DestroyObjects(fasterball);
+                DestroyObjects(additionalBallPowerup);
+                DestroyObjects(allBalls);
+                Balls += 3;
                 numCurrBalls = 0;
                 Level++;
                 panelLevelCompeleted.SetActive(true);
@@ -130,20 +144,40 @@ public class GameManager : MonoBehaviour
                     currLevel = Instantiate(levels[Level]);
                     SwitchState(State.PLAY);
                 }
+                textDisplay.SetActive(false);
+                Ball.DecreaseBallSpeed(); 
                 break;
             case State.GAMEOVER:
+                DestroyObjects(fasterball);
+                DestroyObjects(additionalBallPowerup);
+                DestroyObjects(allBalls);
+                
                 if(Score > PlayerPrefs.GetInt("highscore"))
                 {
                     PlayerPrefs.SetInt("highscore", Score);
                 }
                 panelGameOver.SetActive(true);
+                textDisplay.SetActive(false);
+                Ball.DecreaseBallSpeed();
                 break;
         }
     }
 
+    private void DestroyObjects(GameObject[] obj)
+    {
+        foreach(GameObject ob in obj)
+        {
+            Destroy(ob);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
+        if(timerStarted == true)
+        {
+            timertxt.text = secondsLeft + "";
+        }
+
         switch(state)
         {
             case State.MENU:
@@ -227,4 +261,46 @@ public class GameManager : MonoBehaviour
     {
         numCurrBalls--;
     }
+
+    public void IncreaseBallSpeed()
+    {
+        secondsLeft = 10;
+        timerStarted = true;
+        textDisplay.SetActive(true);
+        Ball.IncreaseBallSpeed();
+        StartCoroutine(StartTimer("ballspeed"));
+    }
+
+    public void IncreasePlayerScale()
+    {
+        secondsLeft = 15;
+        timerStarted = true;
+        textDisplay.SetActive(true);
+        // increase player scale by calling player class
+        Player.instance.IncreasePlayerSize();
+        StartCoroutine(StartTimer("playerscale"));
+    }
+
+    IEnumerator StartTimer(string powerupType)
+    {
+        while(secondsLeft > 0)
+        {
+            textDisplay.GetComponent<Text>().text = "" + secondsLeft;
+            yield return new WaitForSeconds(1);
+            secondsLeft -= 1;
+        }
+        textDisplay.SetActive(false);
+        timerStarted = false;
+        if(powerupType == "ballspeed")
+        {
+            Ball.DecreaseBallSpeed();
+        }
+        else if(powerupType == "playerscale")
+        {
+            Player.instance.DecreasePlayerSize();
+        }
+    }
+
+    
+
 }

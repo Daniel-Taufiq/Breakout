@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8223190518177465134}
   m_Layer: 0
   m_Name: FasterBall
-  m_TagString: Untagged
+  m_TagString: FasterBall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,6 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f71e3dec32c58144cb59f074717d8818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemPrefab: {fileID: 2826572696487892836}
-  powerUp: {fileID: 2826572696487892836}
+  itemPrefab:
+  - {fileID: 2826572696487892836}
   Radius: 1

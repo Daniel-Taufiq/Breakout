@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class RandomSpawner : MonoBehaviour
 {
-    public GameObject itemPrefab;
-    public GameObject powerUp;
+    public GameObject[] itemPrefab;
     public float Radius = 1;
     private bool calledOnce = false;
     private int x = 0;
@@ -13,7 +12,7 @@ public class RandomSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -26,14 +25,14 @@ public class RandomSpawner : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnObjectAtRandom() {
-        
-        if(true)
+    IEnumerator SpawnObjectAtRandom() { 
+        while(true)
         {
-            int wait_time = Random.Range (0, 50);
+            int wait_time = Random.Range (0, 10);
             yield return new WaitForSeconds (wait_time);
             Vector3 randomPos = Random.insideUnitCircle * Radius;
-            powerUp = Instantiate(itemPrefab, randomPos, Quaternion.identity);
+            //Instantiate(itemPrefab[Random.Range(0, itemPrefab.Length)], randomPos, Quaternion.identity);
+            Instantiate(itemPrefab[3], randomPos, Quaternion.identity);
         }
     }
 
@@ -43,16 +42,42 @@ public class RandomSpawner : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision)
-    {
-        Destroy(itemPrefab);
-        Debug.Log("tag is: " + gameObject.tag);
-        if(itemPrefab.tag == "AdditionalBall")
+    {       
+        // delete object
+        //Destroy(itemPrefab[0]);
+        if(gameObject.tag == "AdditionalBall")
+        {
+            Destroy(itemPrefab[0]);
+        }
+        else if(gameObject.tag == "FasterBall")
+        {
+            Destroy(itemPrefab[0]);
+        }
+        else if(gameObject.tag == "AdditionalLife")
+        {
+            Destroy(itemPrefab[0]);
+        }
+        else if(gameObject.tag == "LargerPlayer")
+        {
+            Destroy(itemPrefab[0]);
+        }
+        // add powerup
+        if(gameObject.tag == "AdditionalBall")
         {
             GameManager.Instance.AddBall();
         }
-        else if(itemPrefab.tag == "FasterBall")
+        else if(itemPrefab[0].tag == "FasterBall")
         {
-
+            GameManager.Instance.IncreaseBallSpeed();
+            //Ball.IncreaseSpeedPowerUp();
+        }
+        else if(gameObject.tag == "AdditionalLife")
+        {
+            GameManager.Instance.Balls++;
+        }
+        else if(gameObject.tag == "LargerPlayer")
+        {
+            GameManager.Instance.IncreasePlayerScale();
         }
     }
 }

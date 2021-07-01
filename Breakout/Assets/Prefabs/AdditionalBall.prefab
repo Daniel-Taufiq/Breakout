@@ -107,6 +107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f71e3dec32c58144cb59f074717d8818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemPrefab: {fileID: 42311219588843882}
-  powerUp: {fileID: 42311219588843882}
+  itemPrefab:
+  - {fileID: 42311219588843882}
   Radius: 1

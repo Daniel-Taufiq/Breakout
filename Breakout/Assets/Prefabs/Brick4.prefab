@@ -95,7 +95,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hits: 2
   points: 100
-  rotator: {x: 45, y: 0, z: 0}
+  rotator: {x: 0, y: 0, z: 0}
   hitMaterial: {fileID: 2100000, guid: c1eee7bc4d7d8ab4c87405f67c70aba8, type: 2}
   audioSource: {fileID: 0}
   deathParticles: {fileID: 0}
