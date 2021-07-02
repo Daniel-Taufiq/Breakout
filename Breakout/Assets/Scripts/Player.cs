@@ -25,21 +25,22 @@ public class Player : MonoBehaviour
             temp.x += Time.deltaTime * 1.5f;
             transform.localScale = temp;
         }
+        if(increaseSize == false && transform.localScale.x > 5)
+        {
+            temp = transform.localScale;
+            temp.x -= Time.deltaTime * 1.5f;
+            transform.localScale = temp;
+        }
 
     }
 
     public void IncreasePlayerSize()
     {
         increaseSize = true;
-        // temp = transform.localScale;
-        // temp.x = 10f; // original is 5
-        // transform.localScale = temp;
     }
 
     public void DecreasePlayerSize()
     {
-        temp = transform.localScale;
-        temp.x = 5f;
-        transform.localScale = temp;
+        increaseSize = false;
     }
 }

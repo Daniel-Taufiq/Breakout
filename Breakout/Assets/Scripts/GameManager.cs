@@ -99,6 +99,8 @@ public class GameManager : MonoBehaviour
         GameObject[] fasterball = GameObject.FindGameObjectsWithTag("FasterBall");
         GameObject[] additionalBallPowerup = GameObject.FindGameObjectsWithTag("AdditionalBall");
         GameObject[] allBalls = GameObject.FindGameObjectsWithTag("Ball");
+        GameObject[] additionalLife = GameObject.FindGameObjectsWithTag("AdditionalLife");
+        GameObject[] largerPlayer = GameObject.FindGameObjectsWithTag("LargerPlayer");
         switch(newState)
         {
             case State.MENU:
@@ -128,6 +130,8 @@ public class GameManager : MonoBehaviour
                 DestroyObjects(fasterball);
                 DestroyObjects(additionalBallPowerup);
                 DestroyObjects(allBalls);
+                DestroyObjects(additionalLife);
+                DestroyObjects(largerPlayer);
                 Balls += 3;
                 numCurrBalls = 0;
                 Level++;
@@ -151,7 +155,8 @@ public class GameManager : MonoBehaviour
                 DestroyObjects(fasterball);
                 DestroyObjects(additionalBallPowerup);
                 DestroyObjects(allBalls);
-                
+                DestroyObjects(additionalLife);
+                DestroyObjects(largerPlayer);                
                 if(Score > PlayerPrefs.GetInt("highscore"))
                 {
                     PlayerPrefs.SetInt("highscore", Score);
@@ -276,7 +281,6 @@ public class GameManager : MonoBehaviour
         secondsLeft = 15;
         timerStarted = true;
         textDisplay.SetActive(true);
-        // increase player scale by calling player class
         Player.instance.IncreasePlayerSize();
         StartCoroutine(StartTimer("playerscale"));
     }

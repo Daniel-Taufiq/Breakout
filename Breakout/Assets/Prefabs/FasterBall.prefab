@@ -109,3 +109,4 @@ MonoBehaviour:
   itemPrefab:
   - {fileID: 2826572696487892836}
   Radius: 1
+  rotator: {x: 0, y: 0, z: 45}

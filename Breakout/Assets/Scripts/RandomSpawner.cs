@@ -8,16 +8,18 @@ public class RandomSpawner : MonoBehaviour
     public float Radius = 1;
     private bool calledOnce = false;
     private int x = 0;
+    public Vector3 rotator;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        transform.Rotate(rotator * (transform.position.x + transform.position.y) * 0.1f);
     }
 
     // Update is called once per frame
     void Update()
     {
+        transform.Rotate(rotator * Time.deltaTime);
         if(calledOnce == false && GameManager.Instance.state.Equals(GameManager.State.PLAY))
         {
             calledOnce = true;
@@ -28,11 +30,11 @@ public class RandomSpawner : MonoBehaviour
     IEnumerator SpawnObjectAtRandom() { 
         while(true)
         {
-            int wait_time = Random.Range (0, 10);
+            int wait_time = Random.Range (10, 50);
             yield return new WaitForSeconds (wait_time);
             Vector3 randomPos = Random.insideUnitCircle * Radius;
-            //Instantiate(itemPrefab[Random.Range(0, itemPrefab.Length)], randomPos, Quaternion.identity);
-            Instantiate(itemPrefab[3], randomPos, Quaternion.identity);
+            Instantiate(itemPrefab[Random.Range(0, itemPrefab.Length)], randomPos, Quaternion.identity);
+            //Instantiate(itemPrefab[3], randomPos, Quaternion.identity);
         }
     }
 
