@@ -57,4 +57,16 @@ public class AudioManager : MonoBehaviour
         }
         s.source.PlayOneShot(s.clip[0]);
     }
+
+    public void ChangeVolume(string upOrDown)
+    {
+        if(upOrDown == "up")
+        {
+            AudioListener.volume = 1.0f;
+        }
+        else
+        {
+            AudioListener.volume = 0.1f;
+        }
+    }
 }
