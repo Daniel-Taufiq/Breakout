@@ -9,11 +9,13 @@ public class RandomSpawner : MonoBehaviour
     private bool calledOnce = false;
     private int x = 0;
     public Vector3 rotator;
+    public AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
         transform.Rotate(rotator * (transform.position.x + transform.position.y) * 0.1f);
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -27,14 +29,30 @@ public class RandomSpawner : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnObjectAtRandom() { 
+    IEnumerator SpawnObjectAtRandom() {
+        // yield return new WaitForSeconds (5);
+        // Vector3 randomPos = Random.insideUnitCircle * Radius;
+        // Instantiate(itemPrefab[1], randomPos, Quaternion.identity);
+        // randomPos = Random.insideUnitCircle * Radius;
+        // Instantiate(itemPrefab[1], randomPos, Quaternion.identity);
+        // randomPos = Random.insideUnitCircle * Radius;
+        // Instantiate(itemPrefab[1], randomPos, Quaternion.identity);
+        // randomPos = Random.insideUnitCircle * Radius;
+        // Instantiate(itemPrefab[0], randomPos, Quaternion.identity);
+        // randomPos = Random.insideUnitCircle * Radius;
+        // Instantiate(itemPrefab[0], randomPos, Quaternion.identity);
+        // randomPos = Random.insideUnitCircle * Radius;
+        // Instantiate(itemPrefab[0], randomPos, Quaternion.identity);
+        // randomPos = Random.insideUnitCircle * Radius;
+        // Instantiate(itemPrefab[0], randomPos, Quaternion.identity);
+        // randomPos = Random.insideUnitCircle * Radius;
+        // Instantiate(itemPrefab[0], randomPos, Quaternion.identity);
         while(true)
         {
             int wait_time = Random.Range (10, 50);
             yield return new WaitForSeconds (wait_time);
             Vector3 randomPos = Random.insideUnitCircle * Radius;
             Instantiate(itemPrefab[Random.Range(0, itemPrefab.Length)], randomPos, Quaternion.identity);
-            //Instantiate(itemPrefab[3], randomPos, Quaternion.identity);
         }
     }
 
@@ -47,6 +65,7 @@ public class RandomSpawner : MonoBehaviour
     {       
         // delete object
         //Destroy(itemPrefab[0]);
+        FindObjectOfType<AudioManager>().Play("PowerUp_sound");
         if(gameObject.tag == "AdditionalBall")
         {
             Destroy(itemPrefab[0]);

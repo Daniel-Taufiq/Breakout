@@ -1,10 +1,12 @@
 ﻿using UnityEngine.Audio;
 using System;
 using UnityEngine;
+using Random=UnityEngine.Random;
 
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
+    private Sound bg;   // background sound
     public static AudioManager instance;
     // Start is called before the first frame update
     void Awake()
@@ -25,8 +27,24 @@ public class AudioManager : MonoBehaviour
         foreach(Sound sound in sounds)
         {
             sound.source = gameObject.AddComponent<AudioSource>();
-            sound.source.clip = sound.clip;
-        }   
+            sound.source.clip = sound.clip[0];
+        }
+        
+    }
+
+    void Start()
+    {
+        string name = "BackgroundAudio";
+        bg = Array.Find(sounds, sound => sound.name == name);
+    }
+
+    void Update()
+    {
+        if(!bg.source.isPlaying)
+        {
+            bg.source.PlayOneShot(bg.clip[Random.Range(0, bg.clip.Length)]);
+        }
+
     }
 
     public void Play(string name)
@@ -37,6 +55,6 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound " + name + " not found");
             return;
         }
-        s.source.PlayOneShot(s.clip);
+        s.source.PlayOneShot(s.clip[0]);
     }
 }
