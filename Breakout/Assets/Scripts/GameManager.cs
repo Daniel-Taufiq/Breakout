@@ -13,11 +13,13 @@ public class GameManager : MonoBehaviour
     public Text levelText;
     public Text highscoreText;
     public Text timertxt;
+    public Text musicVolumeText;
 
     public GameObject panelMenu;
     public GameObject panelPlay;
     public GameObject panelLevelCompeleted;
     public GameObject panelGameOver;
+    public GameObject musicSlider;
 
 
     public GameObject[] levels;
@@ -303,6 +305,16 @@ public class GameManager : MonoBehaviour
         {
             Player.instance.DecreasePlayerSize();
         }
+    }
+
+    public void HideSlider()
+    {
+        musicSlider.SetActive(false);
+    }
+
+    public void ShowSlider()
+    {
+        musicSlider.SetActive(true);
     }
 
     

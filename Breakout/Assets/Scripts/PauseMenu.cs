@@ -20,11 +20,11 @@ public class PauseMenu : MonoBehaviour
                 if(isPaused == true)
                 {
                     Resume();
-                    AudioManager.instance.ChangeVolume("up");
+                    //AudioManager.instance.ChangeVolume("up");
                 } else 
                 {
                     Pause();
-                    AudioManager.instance.ChangeVolume("down");
+                    //AudioManager.instance.ChangeVolume("down");
                 }
             }
         }
