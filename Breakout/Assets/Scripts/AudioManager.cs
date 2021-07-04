@@ -109,13 +109,11 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound " + name + " not found");
             return;
         }
-        // check for soundEffects for false in order to trigger toggle sound on when switching
-        // between on and off
+
         if(soundEffects == true)
         {
             s.source.PlayOneShot(s.clip[0]);
         }
-        //s.source.PlayOneShot(s.clip[0]);
     }
 
 
@@ -123,18 +121,8 @@ public class AudioManager : MonoBehaviour
     {
         Debug.Log(soundActive);
         soundEffects = soundActive;
-        FindObjectOfType<AudioManager>().Play("Toggle");
-    }
-
-    public void ChangeVolume(string upOrDown)
-    {
-        if(upOrDown == "up")
-        {
-            AudioListener.volume = 1.0f;
-        }
-        else
-        {
-            AudioListener.volume = 0.1f;
-        }
+        string name = "Toggle";
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        s.source.PlayOneShot(s.clip[0]);
     }
 }
