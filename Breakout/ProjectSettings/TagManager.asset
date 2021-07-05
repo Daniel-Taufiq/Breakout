@@ -9,6 +9,8 @@ TagManager:
   - Ball
   - AdditionalLife
   - LargerPlayer
+  - BrickSpin
+  - BrickSpin3
   layers:
   - Default
   - TransparentFX
